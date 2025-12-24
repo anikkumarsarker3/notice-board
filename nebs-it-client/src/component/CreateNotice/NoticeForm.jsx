@@ -22,7 +22,7 @@ const NoticeForm = () => {
             data.PhotoURL = PhotoURL;
         }
         data.status = 'published';
-        await axios.post('https://nebs-it-server.vercel.app/notices', data);
+        await axios.post('http://localhost:3000/notices', data);
         setOpen(true);
         console.log("Form Data:", data);
     };
@@ -32,7 +32,7 @@ const NoticeForm = () => {
             data.PhotoURL = PhotoURL;
         }
         data.status = 'draft'
-        await axios.post('https://nebs-it-server.vercel.app/notices', data);
+        await axios.post('http://localhost:3000/notices', data);
         setOpen(true);
         console.log("Form Data:", data);
     };

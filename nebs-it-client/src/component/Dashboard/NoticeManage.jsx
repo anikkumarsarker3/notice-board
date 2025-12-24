@@ -12,10 +12,10 @@ const NoticeManage = () => {
     const itemsPerPage = 5;
 
     // Fetch All Notices
-    const { data: notices = [], isLoading } = useQuery({
+    const { data: notices = [], isLoading, refetch } = useQuery({
         queryKey: ['notices'],
         queryFn: async () => {
-            const res = await axios.get('https://nebs-it-server.vercel.app/notices');
+            const res = await axios.get('http://localhost:3000/notices');
             return res.data;
         }
     });
@@ -60,6 +60,7 @@ const NoticeManage = () => {
                             <NoticeTable
                                 key={notice._id}
                                 notice={notice}
+                                refetch={refetch}
                             />
                         ))}
                     </tbody>

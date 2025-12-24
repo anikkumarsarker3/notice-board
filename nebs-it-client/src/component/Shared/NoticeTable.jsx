@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
-import StatusPopup from './StatusPopup';
+import React, { useState } from "react";
+import StatusPopup from "./StatusPopup";
 import { FiEye, FiEdit, FiMoreVertical } from "react-icons/fi";
+import axios from "axios";
 
-const NoticeTable = ({ notice }) => {
+const NoticeTable = ({ notice, refetch }) => {
     const [openId, setOpenId] = useState(null);
-    const handleToggleStatus = (id, currentStatus) => {
-        // 🔥 API call can go here
-        console.log("Toggle status for:", id, currentStatus);
 
-        setOpenId(null); // close popup after toggle
+    const handleToggleStatus = async (id, currentStatus) => {
+        console.log("Toggle status for:", id, currentStatus);
+        const newStatus =
+            currentStatus === "published" ? "unpublished" : "published";
+        try {
+            await axios.patch(`http://localhost:3000/notices/${id}`, {
+                status: newStatus,
+            });
+
+            console.log("Status updated:", id, newStatus);
+            setOpenId(null); // popup close
+        } catch (error) {
+            console.error("Failed to update status", error);
+        }
+
+        refetch();
+        setOpenId(null);
     };
+
     return (
         <tr className="bg-white">
-            <th><input type="checkbox" /></th>
+            <th>
+                <input type="checkbox" />
+            </th>
+
             <td>{notice.title}</td>
             <td>{notice.noticeType}</td>
             <td>{notice.target}</td>
@@ -49,9 +67,8 @@ const NoticeTable = ({ notice }) => {
                         open={openId === notice._id}
                         setOpen={setOpenId}
                         status={notice.status}
-                        onToggle={() =>
-                            handleToggleStatus(notice._id, notice.status)
-                        }
+                        NoticeId={notice._id}
+                        onToggle={() => handleToggleStatus(notice._id, notice.status)}
                     />
                 </div>
             </td>
