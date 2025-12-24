@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
                 element: <NoticeManage />
             },
             {
-                path: 'create-form',
+                path: '/create-form',
                 element: <NoticeForm />
             }
         ]

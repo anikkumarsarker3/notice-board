@@ -8,33 +8,40 @@ import UploadImage from "./UploadImage";
 
 const NoticeForm = () => {
     const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState('')
     const [photo, setPhoto] = useState(null)
+    const [draft, setDraft] = useState(false)
     const {
         register,
         handleSubmit,
         formState: { errors },
-        watch
+        reset
     } = useForm();
-    const titleValue = watch("title");
+    // const titleValue = watch("title");
     const handlePublish = async (data) => {
+        setTitle(data.title)
         if (photo) {
             const PhotoURL = await UploadImage(photo)
             data.PhotoURL = PhotoURL;
         }
         data.status = 'published';
-        await axios.post('http://localhost:3000/notices', data);
+        await axios.post('https://nebs-it-server.vercel.app/notices', data);
         setOpen(true);
-        console.log("Form Data:", data);
+
+        reset();
     };
     const handleDraft = async (data) => {
+        setTitle(data.title)
         if (photo) {
             const PhotoURL = await UploadImage(photo)
             data.PhotoURL = PhotoURL;
         }
         data.status = 'draft'
-        await axios.post('http://localhost:3000/notices', data);
+        await axios.post('https://nebs-it-server.vercel.app/notices', data);
+        setDraft(true)
         setOpen(true);
-        console.log("Form Data:", data);
+
+        reset();
     };
 
     // const onSubmit = (data) => {
@@ -195,7 +202,8 @@ const NoticeForm = () => {
                 <SuccessModal
                     open={open}
                     onClose={() => setOpen(false)}
-                    noticeTitle={titleValue}
+                    draft={draft}
+                    titleValue={title}
                 />
             </div>
         </div>

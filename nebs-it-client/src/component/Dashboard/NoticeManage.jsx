@@ -15,7 +15,7 @@ const NoticeManage = () => {
     const { data: notices = [], isLoading, refetch } = useQuery({
         queryKey: ['notices'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:3000/notices');
+            const res = await axios.get('https://nebs-it-server.vercel.app/notices');
             return res.data;
         }
     });

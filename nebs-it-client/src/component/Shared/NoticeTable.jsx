@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import StatusPopup from "./StatusPopup";
 import { FiEye, FiEdit, FiMoreVertical } from "react-icons/fi";
 import axios from "axios";
+import ImageModal from "./ImageModal";
 
 const NoticeTable = ({ notice, refetch }) => {
     const [openId, setOpenId] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const handleToggleStatus = async (id, currentStatus) => {
         console.log("Toggle status for:", id, currentStatus);
         const newStatus =
             currentStatus === "published" ? "unpublished" : "published";
         try {
-            await axios.patch(`http://localhost:3000/notices/${id}`, {
+            await axios.patch(`https://nebs-it-server.vercel.app/notices/${id}`, {
                 status: newStatus,
             });
 
@@ -51,7 +53,13 @@ const NoticeTable = ({ notice, refetch }) => {
 
             <td>
                 <div className="flex justify-center items-center gap-3 relative">
-                    <FiEye className="cursor-pointer" />
+                    <button
+                        onClick={() => setOpen(true)}
+                    // className="absolute top-5 right-5 text-white text-3xl"
+                    >
+                        {/* <FiX /> */}
+                        <FiEye className="cursor-pointer" />
+                    </button>
                     <FiEdit className="cursor-pointer" />
 
                     <button
@@ -69,6 +77,11 @@ const NoticeTable = ({ notice, refetch }) => {
                         status={notice.status}
                         NoticeId={notice._id}
                         onToggle={() => handleToggleStatus(notice._id, notice.status)}
+                    />
+                    <ImageModal
+                        open={open}
+                        setOpen={setOpen}
+                        image={notice.PhotoURL}
                     />
                 </div>
             </td>
