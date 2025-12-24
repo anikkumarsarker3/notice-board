@@ -16,7 +16,7 @@ const client = new MongoClient(process.env.MONGO_URL, {
 });
 async function run() {
     try {
-        await client.connect();
+        // await client.connect();
         const db = client.db('NebsIT');
         const noticeCollection = db.collection('notices');
 
@@ -32,20 +32,7 @@ async function run() {
         })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        // ployment. You successfully connected to MongoDB!");
     } finally {
 
         // await client.close();

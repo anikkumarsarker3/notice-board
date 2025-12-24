@@ -13,15 +13,16 @@ const NoticeForm = () => {
         register,
         handleSubmit,
         formState: { errors },
+        watch
     } = useForm();
-
+    const titleValue = watch("title");
     const handlePublish = async (data) => {
         if (photo) {
             const PhotoURL = await UploadImage(photo)
             data.PhotoURL = PhotoURL;
         }
         data.status = 'published';
-        await axios.post('http://localhost:3000/notices', data);
+        await axios.post('https://nebs-it-server.vercel.app/notices', data);
         setOpen(true);
         console.log("Form Data:", data);
     };
@@ -31,7 +32,7 @@ const NoticeForm = () => {
             data.PhotoURL = PhotoURL;
         }
         data.status = 'draft'
-        await axios.post('http://localhost:3000/notices', data);
+        await axios.post('https://nebs-it-server.vercel.app/notices', data);
         setOpen(true);
         console.log("Form Data:", data);
     };
@@ -194,7 +195,7 @@ const NoticeForm = () => {
                 <SuccessModal
                     open={open}
                     onClose={() => setOpen(false)}
-                    noticeTitle="Holiday Schedule - November 2025"
+                    noticeTitle={titleValue}
                 />
             </div>
         </div>

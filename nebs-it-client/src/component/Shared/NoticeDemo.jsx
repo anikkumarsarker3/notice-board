@@ -2,15 +2,17 @@ import React from 'react';
 import { MdEditNote } from "react-icons/md";
 import { Link } from 'react-router';
 
-const NoticeDemo = () => {
+const NoticeDemo = ({ notices }) => {
+    const NoticePub = notices.filter(notice => notice.status === 'published')
+    const NoticeDraft = notices.filter(notice => notice.status === 'draft')
     return (
         <div className="flex justify-between items-center mb-10">
             <div >
                 <h3 className="text-lg font-semibold">Notice Management</h3>
                 <div className='flex justify-center items-center gap-5 my-2'>
-                    <h3 className='text-[#00a46e]'>Active Notices: 8 </h3>
+                    <h3 className='text-[#00a46e]'>Active Notices: {NoticePub.length} </h3>
                     <h3 className='text-gray-400'>|</h3>
-                    <h3 className='text-[#ffa307]'>Draft Notice: 04</h3>
+                    <h3 className='text-[#ffa307]'>Draft Notice: {NoticeDraft.length}</h3>
                 </div>
             </div>
             <div className="flex space-x-2">
